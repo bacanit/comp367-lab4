@@ -1,0 +1,28 @@
+trigger:
+- master
+
+pool:
+  name: lab4-agent-pool
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.0.x'
+
+- script: dotnet restore
+  displayName: Restore
+
+- script: dotnet build --configuration Release
+  displayName: Build
+
+- script: dotnet pack StringExtensionsLibrary/StringExtensionsLibrary.csproj -c Release -o $(Build.ArtifactStagingDirectory)
+  displayName: Pack NuGet
+
+- task: NuGetAuthenticate@1
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+    publishVstsFeed: 'lab4-feed'
