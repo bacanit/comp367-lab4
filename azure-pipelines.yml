@@ -21,8 +21,5 @@ steps:
 
 - task: NuGetAuthenticate@1
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-    publishVstsFeed: 'lab4-feed'
+- script: dotnet nuget push "$(Build.ArtifactStagingDirectory)\*.nupkg" --source "https://pkgs.dev.azure.com/tbacani/Lab4-Artifacts/_packaging/lab4-feed/nuget/v3/index.json" --api-key AzureArtifacts
+  displayName: Push NuGet package
