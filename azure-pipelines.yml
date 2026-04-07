@@ -21,8 +21,8 @@ steps:
 
 - task: NuGetAuthenticate@1
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-    publishVstsFeed: 'Lab4-Artifacts/lab4-feed'
+    publishVstsFeed: 'lab4-feed'
